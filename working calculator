@@ -1,0 +1,94 @@
+def check(dig):  # checks if dig is memory or a number
+    try:
+        int(dig)
+        dig = float(dig)
+        return dig, "yes", "int"
+    except ValueError:
+        try:
+            dig = float(dig)
+            return dig, "yes", "float"
+        except ValueError:
+            print(msg_1)  # says it's not a number
+            return dig, "no", "no"
+
+
+def calculation(num1, sym, num2):  # does the calculations
+    if sym == "+":  # plus
+        return num1 + num2
+    elif sym == "-":  # minus
+        return num1 - num2
+    elif sym == "*":  # times
+        return num1 * num2
+    elif sym == "/":  # divide
+        if y != 0:  # checks y isn't 0
+            return num1 / num2
+        else:
+            print(msg_3)  # say you can't divide by 0
+
+
+def idk(v1, v2, v3):  # adds messages
+    msg = ""
+    if is_one_digit(v1) and is_one_digit(v2):
+        msg = msg + msg_6
+    if (v1 == 1 or v2 == 1) and v3 == "*":
+        msg = msg + msg_7
+    if (v1 == 0 or v2 == 0) and (v3 == "*" or v3 == "+" or v3 == "-"):
+        msg = msg + msg_8
+    if msg != "":
+        msg = msg_9 + msg
+        print(msg)
+
+
+def is_one_digit(v):
+    if - 10 < v < 10:
+        return tie == "int"
+    else:
+        return False
+
+
+msg_0 = "Enter an equation"
+msg_1 = "Do you even know what numbers are? Stay focused!"
+msg_2 = "Yes ... an interesting math operation. You've slept through all classes, haven't you?"
+msg_3 = "Yeah... division by zero. Smart move..."
+msg_4 = "Do you want to store the result? (y / n):"
+msg_5 = "Do you want to continue calculations? (y / n):"
+msg_6 = " ... lazy"
+msg_7 = " ... very lazy"
+msg_8 = " ... very, very lazy"
+msg_9 = "You are"
+
+symbols = ["+", "-", "*", "/"]
+
+m = 0  # memory
+
+while True:
+    print(msg_0)  # asks for equation
+    cal = input()
+    cal = cal.split(" ")  # splits equation
+
+    x = cal[0]  # first number
+    s = cal[1]  # symbol
+    y = cal[2]  # second number
+
+    if x == "M":
+        x = m  # assigns memory to x
+    if y == "M":
+        y = m  # assigns memory to y
+
+    x, num, tie = check(x)
+    if num == "yes":  # if x is a number
+        y, num, tie = check(y)
+
+    if num == "yes" and s in symbols:  # if both x and y are numbers, do equation
+        idk(x, y, s)
+        a = calculation(x, s, y)
+        if a is not None:  # checks if calculation happened
+            print(a)  # prints answer
+            print(msg_4)  # asks if they want to story answer
+            if input() == "y":
+                m = a  # stores answer in memory
+            print(msg_5)  # asks if they want to do another calculation
+            if input() == "n":
+                break
+    elif s not in symbols:
+        print(msg_2)  # says y's not a symbol
