@@ -1,0 +1,104 @@
+def check(dig):  # checks if dig is memory or a number
+	try:
+        dig = float(dig)  # checks if dig is a number
+        return dig, "yes"
+    except ValueError:
+        print(msg_[1])  # says it's not a number
+        return "z", "z"
+
+
+def calculation(num1, sym, num2):  # does the calculations
+    if sym == "+":  # plus
+        return num1 + num2
+    elif sym == "-":  # minus
+        return num1 - num2
+    elif sym == "*":  # times
+        return num1 * num2
+    elif sym == "/":  # divide
+        if y != 0:  # checks y isn't 0
+            return num1 / num2
+        else:
+            print(msg_[3])  # say you can't divide by 0
+
+
+def idk(v1, v2, v3):  # adds messages
+    msg = ""
+    if is_one_digit(v1) and is_one_digit(v2):
+        msg = msg + msg_[6]
+    if (v1 == 1 or v2 == 1) and v3 == "*":
+        msg = msg + msg_[7]
+    if (v1 == 0 or v2 == 0) and (v3 == "*" or v3 == "+" or v3 == "-"):
+        msg = msg + msg_[8]
+    if msg != "":
+        msg = msg_[9] + msg
+        print(msg)
+
+
+def is_one_digit(v):
+    return - 10 < v < 10 and v == round(v)
+
+
+msg_ = ["Enter an equation",
+        "Do you even know what numbers are? Stay focused!",
+        "Yes ... an interesting math operation. You've slept through all classes, haven't you?",
+        "Yeah... division by zero. Smart move...",
+        "Do you want to store the result? (y / n):",
+        "Do you want to continue calculations? (y / n):",
+        " ... lazy",
+        " ... very lazy",
+        " ... very, very lazy",
+        "You are",
+        "Are you sure? It is only one digit! (y / n)",
+        "Don't be silly! It's just one number! Add to the memory? (y / n)",
+        "Last chance! Do you really want to embarrass yourself? (y / n)"]
+symbols = ["+", "-", "*", "/"]
+
+
+m = 0  # memory
+num = "no"  # weather x or y is a number
+
+while True:
+
+    print(msg_[0])  # asks for equation
+    cal = input()
+    cal = cal.split(" ")  # splits equation
+
+    x = cal[0]  # first number
+    s = cal[1]  # symbol
+    y = cal[2]  # second number
+
+    if x == "M":
+        x = m
+    if y == "M":
+        y = m
+
+    x, num = check(x)
+
+    if num == "yes":
+        y, num = check(y)
+
+    if num == "yes" and s in symbols:  # if both x and y are numbers, do equation
+        idk(x, y, s)
+        a = calculation(x, s, y)
+        if a is not None:  # checks if calculation happened
+            print(a)  # prints answer
+            print(msg_[4])  # asks if they want to story answer
+            if input() == "y":
+                if not is_one_digit(a):
+                    m = a  # stores answer in memory
+                else:
+                    msg_index = 10
+                    while msg_index < 12:
+                        print(msg_[msg_index])
+                        an = input()
+                        if an == "y":
+                            msg_index += 1
+                        elif an == "n":
+                            break
+                    m = a  # stores answer in memory
+
+            print(msg_[5])  # asks if they want to do another calculation
+            if input() == "n":
+                break
+    elif s not in symbols:
+        print(msg_[2])  # says y's not a symbol
